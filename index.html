@@ -128,18 +128,20 @@
     <p>Tem um projeto ou oportunidade? Vamos conversar!</p>
 
     <div class="contato-container">
-      <form class="form-contato">
-        <input type="text" placeholder="Seu nome" required>
-        <input type="email" placeholder="Seu e-mail" required>
-        <textarea placeholder="Sua mensagem..." required></textarea>
-        <button type="submit">Enviar</button>
+      <form class="form-contato" id="contact-form">
+        <input type="text" name="from_name" placeholder="Seu nome" required>
+        <input type="email" name="reply_to" placeholder="Seu e-mail" required>
+        <textarea name="message" placeholder="Sua mensagem..." required></textarea>
+        <button type="submit" id="contact-submit">Enviar</button>
+        <div id="contact-feedback" aria-live="polite" style="margin-top:10px;"></div>
       </form>
 
+
       <div class="social-cards">
-        <a href="#" class="card linkedin" target="_blank">
+        <a href="www.linkedin.com/in/jonas-pinto-4b9703385" class="card linkedin" target="_blank">
           <i class="fa-brands fa-linkedin-in"></i>
         </a>
-        <a href="#" class="card github" target="_blank">
+        <a href="https://github.com/jonasafp" class="card github" target="_blank">
           <i class="fa-brands fa-github"></i>
         </a>
       </div>
@@ -156,6 +158,9 @@
       </div>
     </div>
   </footer>
+
+  <!-- Container das notificações -->
+  <div id="toast-container"></div>
 
   <!-- =================== JS =================== -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -221,6 +226,62 @@
     });
 
   </script>
+
+  <!-- EmailJS SDK -->
+  <div id="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("IWNJ8FZnbODmmOIdc"); 
+    })();
+
+    // Seleciona o formulário
+    const form = document.querySelector(".form-contato");
+    const submitBtn = form.querySelector("button[type='submit']");
+    const originalText = submitBtn.textContent;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+
+      emailjs.sendForm("service_k0j3ujn", "template_7krdm73", this)
+        .then(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          form.reset();
+          showToast("success", "Mensagem enviada!");
+        }, (error) => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          showToast("error", "Erro ao enviar.");
+        });
+    });
+
+    // ===================== FUNÇÃO DE TOAST =====================
+    function showToast(type, message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+      <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-circle-exclamation'}"></i>
+      <span>${message}</span>
+    `;
+      container.appendChild(toast);
+
+      // animação de entrada
+      setTimeout(() => toast.classList.add('show'), 100);
+
+      // remover após 4s
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 4000);
+    }
+  </script>
+
 </body>
 
 </html>

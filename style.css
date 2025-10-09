@@ -945,3 +945,82 @@ nav a:hover {
     transform: rotate(360deg);
   }
 }
+
+/* ===================== TOAST NOTIFICATIONS ===================== */
+#toast-container {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  color: #333;
+  padding: 12px 18px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast.success {
+  border-left: 6px solid #28a745;
+}
+
+.toast.error {
+  border-left: 6px solid #dc3545;
+}
+
+.toast i {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.toast.success i {
+  color: #28a745;
+}
+
+.toast.error i {
+  color: #dc3545;
+}
+
+/* barra inferior que mostra tempo de vida do toast */
+.toast::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: rgba(0,0,0,0.1);
+  animation: toastTimer 4s linear forwards;
+}
+
+.toast.success::after {
+  background: #28a745;
+}
+
+.toast.error::after {
+  background: #dc3545;
+}
+
+@keyframes toastTimer {
+  from { width: 100%; }
+  to { width: 0%; }
+}
