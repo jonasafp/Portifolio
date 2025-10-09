@@ -159,7 +159,7 @@
     </div>
   </footer>
 
-  <!-- Container das notificações -->
+  <!-- notificações -->
   <div id="toast-container"></div>
 
   <!-- =================== JS =================== -->
@@ -173,13 +173,13 @@
 
     hamburger.addEventListener('click', () => {
       navMenu.classList.toggle('active');
-      hamburger.classList.toggle('active'); // adiciona destaque no botão
+      hamburger.classList.toggle('active'); 
       const icon = hamburger.querySelector('i');
       icon.classList.toggle('fa-bars');
       icon.classList.toggle('fa-xmark');
     });
 
-    // Fecha o menu ao clicar em um link
+    // Fecha o menu 
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('active');
@@ -214,7 +214,7 @@
       setTimeout(() => loader.classList.add('hidden'), 800);
     });
 
-    // Movimento suave das linhas com rolagem
+    // Movimento das linhas com rolagem
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
       document.querySelectorAll('.gradient-line').forEach((line, i) => {
